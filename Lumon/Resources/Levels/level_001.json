@@ -1,0 +1,72 @@
+{
+  "id": "level_001",
+  "metadata": {
+    "title": "First Light",
+    "order": 1
+  },
+  "availableColors": ["red", "yellow", "blue"],
+  "shapes": [
+    {
+      "id": "north",
+      "type": "triangle",
+      "x": 0.5,
+      "y": 0.3,
+      "rotation": 0,
+      "size": { "width": 0.2, "height": 0.2 },
+      "neighbors": ["center"],
+      "clues": [{ "neighbor": "center", "color": "yellow" }]
+    },
+    {
+      "id": "west",
+      "type": "diamond",
+      "x": 0.3,
+      "y": 0.5,
+      "rotation": 0,
+      "size": { "width": 0.2, "height": 0.2 },
+      "neighbors": ["center"],
+      "clues": []
+    },
+    {
+      "id": "center",
+      "type": "square",
+      "x": 0.5,
+      "y": 0.5,
+      "rotation": 0,
+      "size": { "width": 0.2, "height": 0.2 },
+      "neighbors": ["north", "west", "east", "south"],
+      "clues": [
+        { "neighbor": "north", "color": "red" },
+        { "neighbor": "west", "color": "blue" },
+        { "neighbor": "east", "color": "red" },
+        { "neighbor": "south", "color": "yellow" }
+      ]
+    },
+    {
+      "id": "east",
+      "type": "circle",
+      "x": 0.7,
+      "y": 0.5,
+      "rotation": 0,
+      "size": { "width": 0.2, "height": 0.2 },
+      "neighbors": ["center"],
+      "clues": [{ "neighbor": "center", "color": "yellow" }]
+    },
+    {
+      "id": "south",
+      "type": "polygon",
+      "x": 0.5,
+      "y": 0.7,
+      "rotation": 0,
+      "size": { "width": 0.2, "height": 0.2 },
+      "points": [
+        { "x": 0.5, "y": 0.0 },
+        { "x": 1.0, "y": 0.38 },
+        { "x": 0.8, "y": 1.0 },
+        { "x": 0.2, "y": 1.0 },
+        { "x": 0.0, "y": 0.38 }
+      ],
+      "neighbors": ["center"],
+      "clues": [{ "neighbor": "center", "color": "yellow" }]
+    }
+  ]
+}
