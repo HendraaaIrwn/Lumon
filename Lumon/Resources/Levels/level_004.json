@@ -1,0 +1,163 @@
+{
+  "availableColors" : [
+    "red",
+    "yellow",
+    "blue"
+  ],
+  "id" : "level_004",
+  "metadata" : {
+    "order" : 4,
+    "title" : "Level 4"
+  },
+  "shapes" : [
+    {
+      "clues" : [
+        {
+          "color" : "red"
+        }
+      ],
+      "id" : "shape_01",
+      "neighbors" : [
+        "shape_02"
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.16,
+        "width" : 0.16
+      },
+      "type" : "triangle",
+      "x" : 0.22,
+      "y" : 0.22
+    },
+    {
+      "clues" : [
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        }
+      ],
+      "id" : "shape_02",
+      "neighbors" : [
+        "shape_01",
+        "shape_03"
+      ],
+      "rotation" : 15,
+      "size" : {
+        "height" : 0.16,
+        "width" : 0.16
+      },
+      "type" : "square",
+      "x" : 0.38,
+      "y" : 0.22
+    },
+    {
+      "clues" : [
+
+      ],
+      "id" : "shape_03",
+      "neighbors" : [
+        "shape_02",
+        "shape_04"
+      ],
+      "rotation" : -15,
+      "size" : {
+        "height" : 0.16,
+        "width" : 0.16
+      },
+      "type" : "diamond",
+      "x" : 0.54,
+      "y" : 0.22
+    },
+    {
+      "clues" : [
+        {
+          "color" : "blue"
+        }
+      ],
+      "id" : "shape_04",
+      "neighbors" : [
+        "shape_03",
+        "shape_05"
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.16,
+        "width" : 0.16
+      },
+      "type" : "circle",
+      "x" : 0.7,
+      "y" : 0.22
+    },
+    {
+      "clues" : [
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        }
+      ],
+      "id" : "shape_05",
+      "neighbors" : [
+        "shape_04",
+        "shape_06"
+      ],
+      "rotation" : 15,
+      "size" : {
+        "height" : 0.16,
+        "width" : 0.16
+      },
+      "type" : "triangle",
+      "x" : 0.7,
+      "y" : 0.38
+    },
+    {
+      "clues" : [
+        {
+          "color" : "red"
+        }
+      ],
+      "id" : "shape_06",
+      "neighbors" : [
+        "shape_05",
+        "shape_07"
+      ],
+      "rotation" : -15,
+      "size" : {
+        "height" : 0.16,
+        "width" : 0.16
+      },
+      "type" : "square",
+      "x" : 0.54,
+      "y" : 0.38
+    },
+    {
+      "clues" : [
+
+      ],
+      "id" : "shape_07",
+      "neighbors" : [
+        "shape_06"
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.16,
+        "width" : 0.16
+      },
+      "type" : "diamond",
+      "x" : 0.38,
+      "y" : 0.38
+    }
+  ],
+  "solution" : {
+    "shape_01" : "yellow",
+    "shape_02" : "red",
+    "shape_03" : "yellow",
+    "shape_04" : "yellow",
+    "shape_05" : "blue",
+    "shape_06" : "yellow",
+    "shape_07" : "red"
+  }
+}
