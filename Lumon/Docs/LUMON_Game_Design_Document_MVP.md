@@ -194,11 +194,17 @@ No difficulty menu.
 
 Difficulty increases naturally through level progression.
 
+The initial MVP catalog contains 10 levels. PLAY resumes at the first
+unfinished level. Completing Level 10 shows the all-levels-completed state.
+
 ---
 
 # 8. Progress System
 
 Simple local progress.
+
+Only completed level IDs are saved. Puzzle answers, lives, and hints reset
+whenever a new session starts.
 
 Example:
 
@@ -225,6 +231,7 @@ Included:
 - Reset puzzle
 - Level reset
 - Progress saving
+- 10-level Level Select with sequential unlocking
 - Haptic feedback
 - Sound effects
 
@@ -363,6 +370,7 @@ Haptic:
 - Correct
 - Wrong
 - Completion
+- Next Level
 
 ---
 

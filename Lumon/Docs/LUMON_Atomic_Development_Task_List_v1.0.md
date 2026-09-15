@@ -332,6 +332,7 @@ Responsibilities:
 
 -   Store relationships
 -   Query neighbors
+-   Reject unknown, duplicate, self, and one-way relationships
 
 Acceptance:
 
@@ -347,8 +348,10 @@ Create:
 
 Contains:
 
--   neighbor reference
--   expected color
+-   expected neighboring color
+
+Repeated clues represent the minimum number of distinct neighbors with
+that color. A clue never identifies a specific neighbor.
 
 ------------------------------------------------------------------------
 
@@ -361,7 +364,8 @@ Create:
 Check:
 
 -   Neighbor colors
--   Clue matching
+-   Partial and complete clue matching
+-   Player answers against the hidden JSON solution
 
 Acceptance:
 
@@ -446,7 +450,7 @@ Create:
 
 Rules:
 
--   Maximum 6 hints
+-   Maximum 6 reveals per game
 -   Reveal one correct shape
 
 ------------------------------------------------------------------------
@@ -491,6 +495,16 @@ Manage:
 -   lives
 -   hints
 -   completion
+-   game over
+-   feedback events
+
+Actions:
+
+-   load
+-   select shape
+-   assign color
+-   use hint
+-   reset
 
 ------------------------------------------------------------------------
 
@@ -531,7 +545,9 @@ Algorithm:
 
 Acceptance:
 
-Solver finds solution.
+-   Solver searches from clues without reading the hidden solution
+-   Search stops after the second solution
+-   Search-limit exhaustion remains distinct from a proven result
 
 ------------------------------------------------------------------------
 
@@ -541,6 +557,8 @@ Implement:
 
 -   Count possible solutions
 -   Reject multiple solutions
+-   Reject levels whose unique result differs from the hidden solution
+-   Share structural and uniqueness validation between loading and export
 
 Acceptance:
 
@@ -567,6 +585,13 @@ Sounds:
 -   wrong
 -   complete
 
+Behavior:
+
+-   Uses the ambient audio session category
+-   Respects the Ring/Silent switch
+-   Restarts short effects from the beginning
+-   Audio failures do not interrupt gameplay
+
 ------------------------------------------------------------------------
 
 # Phase 11 --- Level Generator Support
@@ -582,6 +607,10 @@ Models for:
 -   colors
 -   clues
 
+The input artwork stores fixed geometry, playable colors, and explicit
+two-way neighbor relationships. It does not contain player colors or
+generated clues.
+
 ------------------------------------------------------------------------
 
 ## TASK-033 Generate Random Solution
@@ -593,6 +622,7 @@ Create:
 Generate:
 
 -   valid color assignment
+-   at most 100 candidates by default
 
 ------------------------------------------------------------------------
 
@@ -602,6 +632,10 @@ Generate:
 
 -   neighbor clues
 -   hidden information
+-   partial clues with at most 6 clues per shape
+
+Only candidates proven to have exactly one solver result are accepted.
+Clues are removed one at a time while uniqueness remains proven.
 
 ------------------------------------------------------------------------
 
@@ -610,6 +644,10 @@ Generate:
 Output:
 
     level_xxx.json
+
+The exporter validates the level, hides player colors, writes sorted
+pretty-printed JSON atomically, and does not add the result to the app
+bundle automatically.
 
 ------------------------------------------------------------------------
 
@@ -621,6 +659,9 @@ Implement:
 
 -   board glow
 -   success animation
+-   reduced-motion fallback
+
+Status: Implemented. Build verification is recorded separately.
 
 ------------------------------------------------------------------------
 
@@ -629,19 +670,26 @@ Implement:
 Implement:
 
 -   level loading animation
+-   cancellable asynchronous bundle loading
+-   retryable error state
+
+Status: Implemented. Loading and decoding run through the repository actor.
 
 ------------------------------------------------------------------------
 
 ## TASK-038 Add Settings Screen
 
-Optional:
-
 -   sound toggle
 -   reset progress
+
+Status: Implemented with persistent local settings and reset confirmation.
 
 ------------------------------------------------------------------------
 
 # Phase 13 --- Testing
+
+Status: **Skipped by explicit project direction.** TASK-039 through TASK-041
+remain reserved and were not implemented or run.
 
 ## TASK-039 Unit Test Models
 
@@ -671,19 +719,83 @@ Test:
 
 ------------------------------------------------------------------------
 
+# Phase 14 --- Progress and Navigation
+
+## TASK-042 Persist Local Progress
+
+Store completed level IDs in UserDefaults and unlock levels sequentially.
+
+Status: Implemented.
+
+## TASK-043 Record Completion
+
+Record completion from normal answers and hint-based completion.
+
+Status: Implemented.
+
+## TASK-044 Add Home and Level Select Navigation
+
+Show completed, available, and locked levels. PLAY opens the first
+unfinished level.
+
+Status: Implemented.
+
+## TASK-045 Add Next Level and Final Completion Flow
+
+Replace the active game destination for Next Level and show the final
+catalog completion state after Level 10.
+
+Status: Implemented.
+
+------------------------------------------------------------------------
+
+# Phase 15 --- Ten-Level MVP Catalog
+
+## TASK-046 Add Deterministic Level Authoring Tool
+
+Generate bundled JSON through the existing generator, solver, validator,
+and atomic exporter.
+
+Status: Implemented in `Tools/LevelAuthoring/generate_levels.swift`.
+
+## TASK-047 through TASK-049 Add Level Batches
+
+-   Level 2 through Level 4: 6--7 shapes
+-   Level 5 through Level 7: 8--10 shapes
+-   Level 8 through Level 10: 10--12 shapes
+
+Status: Implemented. Export accepted all nine generated levels as unique.
+
+------------------------------------------------------------------------
+
+# Phase 16 --- Documentation and Build Closure
+
+## TASK-050 Synchronize MVP Documentation
+
+Document the asynchronous loading, persistent app state, navigation,
+ten-level catalog, authoring command, and skipped test phase.
+
+Status: Implemented. Debug and Release build results belong in the final
+implementation report; gameplay and balance remain untested by request.
+
+------------------------------------------------------------------------
+
 # MVP Completion Checklist
 
 MVP is complete when:
 
--   [ ] Player can open level
--   [ ] Board renders correctly
--   [ ] Player selects colors
--   [ ] Rules validate correctly
--   [ ] Puzzle has unique solution
--   [ ] Hint works
--   [ ] Lives work
--   [ ] Level loads from JSON
--   [ ] Completion animation works
+-   [x] Player can open sequential levels
+-   [x] Board rendering is implemented
+-   [x] Player color selection is implemented
+-   [x] Rule validation is integrated
+-   [x] Bundled puzzles pass export-time uniqueness validation
+-   [x] Hint and lives systems are integrated
+-   [x] Ten levels load through the JSON repository contract
+-   [x] Completion animation is implemented
+-   [x] Local progress, Level Select, Settings, and Next Level are implemented
+
+These checks represent implementation state. Build status and runtime test
+coverage are reported independently.
 
 ------------------------------------------------------------------------
 
@@ -701,3 +813,6 @@ MVP is complete when:
 10. Hint
 11. Audio
 12. Polish
+13. Progress and Navigation
+14. Level Catalog
+15. Documentation and Build Closure

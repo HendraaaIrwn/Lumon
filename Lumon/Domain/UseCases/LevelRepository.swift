@@ -1,7 +1,7 @@
 import Foundation
 
-protocol LevelRepository {
-    var availableLevelIDs: [String] { get }
+protocol LevelRepository: Actor {
+    nonisolated var availableLevelIDs: [String] { get }
 
-    func level(id: String) throws -> Level
+    func level(id: String) async throws -> Level
 }

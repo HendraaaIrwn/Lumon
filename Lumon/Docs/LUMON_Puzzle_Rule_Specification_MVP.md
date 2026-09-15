@@ -413,3 +413,13 @@ Locked correct answers - Unique solution puzzles
 
 Excluded: - Timer - Move limit - Multiplayer - Daily puzzle -
 Monetization
+
+------------------------------------------------------------------------
+
+# 21. MVP Session and Catalog Rules
+
+- The MVP contains ten ordered levels.
+- A new level session starts with three lives and six hint reveals.
+- Completing a level through manual answers or hints unlocks the next level.
+- Correctly completed level IDs persist locally; in-progress colors do not.
+- Reset Progress clears completion records but does not change sound settings.

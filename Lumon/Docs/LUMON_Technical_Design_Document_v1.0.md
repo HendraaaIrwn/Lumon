@@ -250,10 +250,23 @@ Example:
 "red",
 "yellow",
 "blue"
-]
+],
+
+"solution": {
+"shape_01":"red"
+}
 
 }
 ```
+
+`solution` is required and contains exactly one playable color for every
+shape. It remains hidden from the board and is used for immediate answer
+validation and hint reveals.
+
+Each clue stores only a color. Repeated clue colors are counts: two red
+dots require at least two distinct red neighbors. Clues can be partial, so
+unlisted neighbor colors remain unconstrained. Neighbor relationships must
+be explicit and two-way in JSON.
 
 ------------------------------------------------------------------------
 
@@ -264,6 +277,7 @@ Validation checks:
 1.  Shape color assignment
 2.  Neighbor constraints
 3.  Circle clue matching
+4.  Hidden solution consistency
 
 Flow:
 
@@ -280,6 +294,10 @@ Flow:
     ↓
 
     Correct / Incorrect
+
+An answer is correct only when it matches that shape's hidden solution.
+A partially revealed board remains feasible when every missing clue count
+can still be supplied by unresolved neighbors.
 
 ------------------------------------------------------------------------
 
@@ -317,6 +335,16 @@ Algorithm:
 
     Backtrack if invalid
 
+The solver receives shapes and the playable palette. It derives answers
+only from explicit neighbor relationships and color clues; it never reads
+the hidden JSON solution while searching. Partial assignments are pruned
+when unresolved neighbors can no longer supply the missing clue counts.
+
+Search stops after two solutions because that is sufficient to reject
+uniqueness. The default search budget is 100,000 attempted assignments.
+Reaching the budget is reported as an unproven result, not as a unique
+solution.
+
 ------------------------------------------------------------------------
 
 # 11. Level Generator Design
@@ -351,10 +379,19 @@ Generation pipeline:
 
 Requirements:
 
--   Minimum one solution
--   Prefer unique solution
+-   Exactly one solution
 -   No overlap
 -   Fixed artwork positions
+
+The internal generator receives an artwork template containing fixed
+geometry, a playable palette, and explicit two-way neighbor relationships.
+It assigns a random hidden solution, creates up to six neighboring color
+clues per shape, and tries to remove clues while solver-proven uniqueness
+remains intact. Generation tries at most 100 candidates by default.
+
+Generated levels can be encoded or written atomically as sorted,
+pretty-printed JSON. Export uses the same validation service as level
+loading and does not register the file as a bundled playable level.
 
 ------------------------------------------------------------------------
 
@@ -379,6 +416,10 @@ Flow:
     ↓
 
     Animate Light Reveal
+
+The game starts with six hint reveals. A reveal prefers the selected
+unresolved shape, otherwise it uses the first unresolved shape in level
+order. Revealed shapes become locked and reset restores all six hints.
 
 ------------------------------------------------------------------------
 
@@ -434,10 +475,18 @@ var shapes:[PuzzleShape]
 
 var hints:Int
 
-var completed:Bool
+var lives:Int
+
+var status:GameStatus
+
+var feedbackEvent:GameFeedbackEvent?
 
 }
 ```
+
+`GameViewModel` owns all mutable session state and exposes actions for
+loading, selection, color assignment, hints, and reset. Views render state
+and forward player actions; puzzle rules remain in domain services.
 
 ------------------------------------------------------------------------
 
@@ -453,6 +502,12 @@ Used for:
 -   Correct answer
 -   Wrong answer
 -   Level completion
+
+`AudioManager` retains one prepared player for each bundled WAV effect
+and restarts it from the beginning for repeated interactions. The ambient
+audio-session category respects the Ring/Silent switch and mixes with
+audio from other apps. Missing resources and playback failures are logged
+without interrupting game actions.
 
 No external audio dependency.
 
@@ -499,6 +554,50 @@ Possible future features:
 -   Procedural difficulty scaling
 -   Leaderboard
 -   Achievement system
+
+------------------------------------------------------------------------
+
+# 19. MVP Application State and Navigation
+
+`RootView` owns one `AppSettings` and one `ProgressStore` for the app
+session. Both persist through UserDefaults. Settings stores the sound-effect
+preference; progress stores only completed level IDs. Transient board colors,
+lives, and hints are not persisted.
+
+The ordered catalog contains `level_001` through `level_010`. Level 1 is
+always unlocked, and each later level requires every previous level to be
+complete. PLAY opens the first unfinished level. Level Select exposes
+completed, available, and locked states. Next Level replaces the active game
+destination instead of stacking another game screen.
+
+------------------------------------------------------------------------
+
+# 20. Asynchronous Level Loading
+
+`BundleLevelRepository` is an actor. Bundle reads, JSON decoding, structural
+validation, and solver-backed uniqueness validation run behind its async
+interface. `GameViewModel` remains MainActor-isolated and applies only the
+result of its current request. SwiftUI task cancellation prevents an obsolete
+load from replacing a newer game state.
+
+------------------------------------------------------------------------
+
+# 21. Level Authoring
+
+`Tools/LevelAuthoring/generate_levels.swift` contains deterministic recipes
+for Level 2 through Level 10. It calls the production `LevelGenerator` and
+`LevelExporter`; the resulting JSON is written atomically only after the
+solver proves one solution matching the hidden answer. Generated files are
+then bundled as static resources and are never generated during gameplay.
+
+------------------------------------------------------------------------
+
+# 22. Verification Boundary
+
+Phase 13 tests were skipped by explicit project direction. Debug and Release
+simulator builds are the implementation gate. Runtime gameplay, animation
+quality, accessibility behavior on device, and difficulty balance remain
+unverified through playtesting.
 
 ------------------------------------------------------------------------
 
