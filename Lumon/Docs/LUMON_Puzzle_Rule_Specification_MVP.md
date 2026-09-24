@@ -150,21 +150,23 @@ This creates deduction gameplay.
 
 # 7. Hint Visibility
 
-Hints are hidden at the start.
+All shapes start black. Selecting a shape only makes it the target of the
+color controls and never reveals its hint.
 
-When the player selects a shape:
+Some shape hints are visible from the start and remain visible. The number is
+based on level order:
 
-Before:
+- Levels 1–3: 3 initial hints
+- Levels 4–7: 2 initial hints
+- Levels 8–10: 1 initial hint
 
-    ⬛
+When a shape receives its correct color, either from a manual answer or the
+Hint button, that shape's own neighbor hint becomes visible permanently for
+the rest of the session. Reset returns visibility to the level's initial hints.
 
-After selection:
-
-    ▲
-
-    🔴 🟡
-
-The player can inspect the clue.
+Every level must provide a progressive deduction path: the currently visible
+hints and previously solved colors must always determine at least one next
+shape without guessing.
 
 ------------------------------------------------------------------------
 
@@ -298,7 +300,7 @@ After:
     🔵
 
 The revealed shape: - becomes correct - becomes locked - consumes hint
-resource (resource system TBD)
+resource (resource system TBD) - reveals its own neighbor hint
 
 ------------------------------------------------------------------------
 

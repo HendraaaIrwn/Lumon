@@ -16,148 +16,354 @@
           "color" : "red"
         }
       ],
-      "id" : "shape_01",
+      "id" : "top_outer",
       "neighbors" : [
-        "shape_02"
+        "top_square"
       ],
       "rotation" : 0,
+      "showsCluesInitially" : true,
       "size" : {
-        "height" : 0.16,
-        "width" : 0.16
+        "height" : 0.162693,
+        "width" : 0.189221
       },
       "type" : "triangle",
-      "x" : 0.22,
-      "y" : 0.22
-    },
-    {
-      "clues" : [
-        {
-          "color" : "yellow"
-        },
-        {
-          "color" : "yellow"
-        }
-      ],
-      "id" : "shape_02",
-      "neighbors" : [
-        "shape_01",
-        "shape_03"
-      ],
-      "rotation" : 15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "square",
-      "x" : 0.38,
-      "y" : 0.22
-    },
-    {
-      "clues" : [
-
-      ],
-      "id" : "shape_03",
-      "neighbors" : [
-        "shape_02",
-        "shape_04"
-      ],
-      "rotation" : -15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "diamond",
-      "x" : 0.54,
-      "y" : 0.22
-    },
-    {
-      "clues" : [
-        {
-          "color" : "blue"
-        }
-      ],
-      "id" : "shape_04",
-      "neighbors" : [
-        "shape_03",
-        "shape_05"
-      ],
-      "rotation" : 0,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "circle",
-      "x" : 0.7,
-      "y" : 0.22
-    },
-    {
-      "clues" : [
-        {
-          "color" : "yellow"
-        },
-        {
-          "color" : "yellow"
-        }
-      ],
-      "id" : "shape_05",
-      "neighbors" : [
-        "shape_04",
-        "shape_06"
-      ],
-      "rotation" : 15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "triangle",
-      "x" : 0.7,
-      "y" : 0.38
+      "x" : 0.501686,
+      "y" : 0.092748
     },
     {
       "clues" : [
         {
           "color" : "red"
+        },
+        {
+          "color" : "red"
         }
       ],
-      "id" : "shape_06",
+      "id" : "top_square",
       "neighbors" : [
-        "shape_05",
-        "shape_07"
+        "top_outer",
+        "top_left_corner",
+        "center",
+        "top_right_corner"
       ],
-      "rotation" : -15,
+      "rotation" : 0,
       "size" : {
-        "height" : 0.16,
-        "width" : 0.16
+        "height" : 0.187277,
+        "width" : 0.187277
       },
       "type" : "square",
-      "x" : 0.54,
-      "y" : 0.38
+      "x" : 0.500275,
+      "y" : 0.289956
     },
     {
       "clues" : [
 
       ],
-      "id" : "shape_07",
+      "id" : "top_left_corner",
       "neighbors" : [
-        "shape_06"
+        "top_square",
+        "left_square"
+      ],
+      "points" : [
+        {
+          "x" : 1,
+          "y" : 0
+        },
+        {
+          "x" : 1,
+          "y" : 1
+        },
+        {
+          "x" : 0,
+          "y" : 1
+        }
       ],
       "rotation" : 0,
       "size" : {
-        "height" : 0.16,
-        "width" : 0.16
+        "height" : 0.181586,
+        "width" : 0.18462
       },
-      "type" : "diamond",
-      "x" : 0.38,
-      "y" : 0.38
+      "type" : "polygon",
+      "x" : 0.287152,
+      "y" : 0.290215
+    },
+    {
+      "clues" : [
+
+      ],
+      "id" : "left_outer",
+      "neighbors" : [
+        "left_square"
+      ],
+      "rotation" : -90,
+      "size" : {
+        "height" : 0.164473,
+        "width" : 0.187172
+      },
+      "type" : "triangle",
+      "x" : 0.082237,
+      "y" : 0.499377
+    },
+    {
+      "clues" : [
+        {
+          "color" : "red"
+        },
+        {
+          "color" : "red"
+        }
+      ],
+      "id" : "left_square",
+      "neighbors" : [
+        "left_outer",
+        "top_left_corner",
+        "center",
+        "bottom_left_corner"
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.187277,
+        "width" : 0.187277
+      },
+      "type" : "square",
+      "x" : 0.285321,
+      "y" : 0.500513
+    },
+    {
+      "clues" : [
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        }
+      ],
+      "id" : "center",
+      "neighbors" : [
+        "top_square",
+        "left_square",
+        "right_square",
+        "bottom_square"
+      ],
+      "rotation" : 0,
+      "showsCluesInitially" : true,
+      "size" : {
+        "height" : 0.187277,
+        "width" : 0.187277
+      },
+      "type" : "square",
+      "x" : 0.500275,
+      "y" : 0.500513
+    },
+    {
+      "clues" : [
+
+      ],
+      "id" : "top_right_corner",
+      "neighbors" : [
+        "top_square",
+        "right_square"
+      ],
+      "points" : [
+        {
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "x" : 0,
+          "y" : 1
+        },
+        {
+          "x" : 1,
+          "y" : 1
+        }
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.181586,
+        "width" : 0.18462
+      },
+      "type" : "polygon",
+      "x" : 0.713922,
+      "y" : 0.290215
+    },
+    {
+      "clues" : [
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        }
+      ],
+      "id" : "right_square",
+      "neighbors" : [
+        "right_outer",
+        "top_right_corner",
+        "center",
+        "bottom_right_corner"
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.187277,
+        "width" : 0.187277
+      },
+      "type" : "square",
+      "x" : 0.714184,
+      "y" : 0.500513
+    },
+    {
+      "clues" : [
+
+      ],
+      "id" : "right_outer",
+      "neighbors" : [
+        "right_square"
+      ],
+      "rotation" : 90,
+      "size" : {
+        "height" : 0.164473,
+        "width" : 0.187172
+      },
+      "type" : "triangle",
+      "x" : 0.917473,
+      "y" : 0.499377
+    },
+    {
+      "clues" : [
+
+      ],
+      "id" : "bottom_left_corner",
+      "neighbors" : [
+        "left_square",
+        "bottom_square"
+      ],
+      "points" : [
+        {
+          "x" : 1,
+          "y" : 1
+        },
+        {
+          "x" : 1,
+          "y" : 0
+        },
+        {
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.181586,
+        "width" : 0.18462
+      },
+      "type" : "polygon",
+      "x" : 0.287152,
+      "y" : 0.710812
+    },
+    {
+      "clues" : [
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        }
+      ],
+      "id" : "bottom_square",
+      "neighbors" : [
+        "bottom_outer",
+        "bottom_left_corner",
+        "center",
+        "bottom_right_corner"
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.187277,
+        "width" : 0.187277
+      },
+      "type" : "square",
+      "x" : 0.500275,
+      "y" : 0.710553
+    },
+    {
+      "clues" : [
+
+      ],
+      "id" : "bottom_right_corner",
+      "neighbors" : [
+        "right_square",
+        "bottom_square"
+      ],
+      "points" : [
+        {
+          "x" : 0,
+          "y" : 1
+        },
+        {
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "x" : 1,
+          "y" : 0
+        }
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.181586,
+        "width" : 0.18462
+      },
+      "type" : "polygon",
+      "x" : 0.713922,
+      "y" : 0.713398
+    },
+    {
+      "clues" : [
+
+      ],
+      "id" : "bottom_outer",
+      "neighbors" : [
+        "bottom_square"
+      ],
+      "rotation" : 180,
+      "size" : {
+        "height" : 0.162693,
+        "width" : 0.189221
+      },
+      "type" : "triangle",
+      "x" : 0.501686,
+      "y" : 0.906986
     }
   ],
   "solution" : {
-    "shape_01" : "yellow",
-    "shape_02" : "red",
-    "shape_03" : "yellow",
-    "shape_04" : "yellow",
-    "shape_05" : "blue",
-    "shape_06" : "yellow",
-    "shape_07" : "red"
+    "bottom_left_corner" : "yellow",
+    "bottom_outer" : "yellow",
+    "bottom_right_corner" : "yellow",
+    "bottom_square" : "yellow",
+    "center" : "yellow",
+    "left_outer" : "red",
+    "left_square" : "yellow",
+    "right_outer" : "yellow",
+    "right_square" : "yellow",
+    "top_left_corner" : "red",
+    "top_outer" : "red",
+    "top_right_corner" : "yellow",
+    "top_square" : "red"
   }
 }

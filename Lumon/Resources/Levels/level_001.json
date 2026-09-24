@@ -1,77 +1,102 @@
 {
-  "id": "level_001",
-  "metadata": {
-    "title": "First Light",
-    "order": 1
+  "availableColors" : [
+    "red",
+    "yellow"
+  ],
+  "id" : "level_001",
+  "metadata" : {
+    "order" : 1,
+    "title" : "First Light"
   },
-  "availableColors": ["red", "yellow", "blue"],
-  "solution": {
-    "north": "red",
-    "center": "yellow",
-    "west": "blue",
-    "east": "red",
-    "south": "yellow"
-  },
-  "shapes": [
+  "shapes" : [
     {
-      "id": "north",
-      "type": "triangle",
-      "x": 0.5,
-      "y": 0.15,
-      "rotation": 0,
-      "size": { "width": 0.16, "height": 0.16 },
-      "neighbors": ["center"],
-      "clues": [{ "color": "yellow" }]
-    },
-    {
-      "id": "west",
-      "type": "diamond",
-      "x": 0.5,
-      "y": 0.47,
-      "rotation": 0,
-      "size": { "width": 0.16, "height": 0.16 },
-      "neighbors": ["center", "east"],
-      "clues": [{ "color": "yellow" }, { "color": "red" }]
-    },
-    {
-      "id": "center",
-      "type": "square",
-      "x": 0.5,
-      "y": 0.31,
-      "rotation": 0,
-      "size": { "width": 0.16, "height": 0.16 },
-      "neighbors": ["north", "west"],
-      "clues": [
-        { "color": "red" },
-        { "color": "blue" }
-      ]
-    },
-    {
-      "id": "east",
-      "type": "circle",
-      "x": 0.5,
-      "y": 0.63,
-      "rotation": 0,
-      "size": { "width": 0.16, "height": 0.16 },
-      "neighbors": ["west", "south"],
-      "clues": [{ "color": "blue" }, { "color": "yellow" }]
-    },
-    {
-      "id": "south",
-      "type": "polygon",
-      "x": 0.5,
-      "y": 0.79,
-      "rotation": 0,
-      "size": { "width": 0.16, "height": 0.16 },
-      "points": [
-        { "x": 0.5, "y": 0.0 },
-        { "x": 1.0, "y": 0.38 },
-        { "x": 0.8, "y": 1.0 },
-        { "x": 0.2, "y": 1.0 },
-        { "x": 0.0, "y": 0.38 }
+      "clues" : [
+        {
+          "color" : "yellow"
+        }
       ],
-      "neighbors": ["east"],
-      "clues": [{ "color": "red" }]
+      "id" : "upper_left",
+      "neighbors" : [
+        "center"
+      ],
+      "rotation" : 180,
+      "showsCluesInitially" : true,
+      "size" : {
+        "height" : 0.404357,
+        "width" : 0.46222
+      },
+      "type" : "triangle",
+      "x" : 0.23111,
+      "y" : 0.274622
+    },
+    {
+      "clues" : [
+        {
+          "color" : "red"
+        },
+        {
+          "color" : "red"
+        },
+        {
+          "color" : "red"
+        }
+      ],
+      "id" : "center",
+      "neighbors" : [
+        "upper_left",
+        "upper_right",
+        "bottom"
+      ],
+      "rotation" : 0,
+      "showsCluesInitially" : true,
+      "size" : {
+        "height" : 0.398674,
+        "width" : 0.467803
+      },
+      "type" : "triangle",
+      "x" : 0.503749,
+      "y" : 0.292351
+    },
+    {
+      "clues" : [
+        {
+          "color" : "yellow"
+        }
+      ],
+      "id" : "upper_right",
+      "neighbors" : [
+        "center"
+      ],
+      "rotation" : 180,
+      "showsCluesInitially" : true,
+      "size" : {
+        "height" : 0.404357,
+        "width" : 0.46222
+      },
+      "type" : "triangle",
+      "x" : 0.768042,
+      "y" : 0.26894
+    },
+    {
+      "clues" : [],
+      "id" : "bottom",
+      "neighbors" : [
+        "center"
+      ],
+      "rotation" : 180,
+      "size" : {
+        "height" : 0.404357,
+        "width" : 0.46222
+      },
+      "type" : "triangle",
+      "x" : 0.505731,
+      "y" : 0.730114
     }
-  ]
+  ],
+  "solution" : {
+    "bottom" : "red",
+    "center" : "yellow",
+    "upper_left" : "red",
+    "upper_right" : "red"
+  }
 }

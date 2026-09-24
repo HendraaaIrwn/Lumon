@@ -11,177 +11,243 @@
   },
   "shapes" : [
     {
-      "clues" : [
-
-      ],
+      "clues" : [],
       "id" : "shape_01",
       "neighbors" : [
-        "shape_02"
+        "shape_02", "shape_03", "shape_04", "shape_05", "shape_06",
+        "shape_07", "shape_08", "shape_09", "shape_10"
+      ],
+      "points" : [
+        { "x" : 1, "y" : 0.5 },
+        { "x" : 0.75, "y" : 1 },
+        { "x" : 0.25, "y" : 1 },
+        { "x" : 0, "y" : 0.5 },
+        { "x" : 0.25, "y" : 0 },
+        { "x" : 0.75, "y" : 0 }
       ],
       "rotation" : 0,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "square",
-      "x" : 0.7,
-      "y" : 0.22
+      "size" : { "height" : 0.37399, "width" : 0.43185 },
+      "type" : "polygon",
+      "x" : 0.49524,
+      "y" : 0.57739
     },
     {
-      "clues" : [
-        {
-          "color" : "yellow"
-        },
-        {
-          "color" : "yellow"
-        }
-      ],
+      "clues" : [],
       "id" : "shape_02",
-      "neighbors" : [
-        "shape_01",
-        "shape_03"
+      "neighbors" : ["shape_01", "shape_03", "shape_08", "shape_11"],
+      "points" : [
+        { "x" : 1, "y" : 0.85099 },
+        { "x" : 0.66182, "y" : 1 },
+        { "x" : 0, "y" : 0.14901 },
+        { "x" : 0.33818, "y" : 0 }
       ],
-      "rotation" : 15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "diamond",
-      "x" : 0.54,
-      "y" : 0.22
+      "rotation" : 0,
+      "size" : { "height" : 0.32431, "width" : 0.24411 },
+      "type" : "polygon",
+      "x" : 0.64013,
+      "y" : 0.29349
     },
     {
-      "clues" : [
-        {
-          "color" : "blue"
-        }
-      ],
+      "clues" : [],
       "id" : "shape_03",
-      "neighbors" : [
-        "shape_02",
-        "shape_04"
+      "neighbors" : ["shape_01", "shape_02", "shape_05", "shape_10", "shape_12"],
+      "points" : [
+        { "x" : 1, "y" : 0.85273 },
+        { "x" : 0.66489, "y" : 1 },
+        { "x" : 0, "y" : 0.14727 },
+        { "x" : 0.33511, "y" : 0 }
       ],
-      "rotation" : -15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "circle",
-      "x" : 0.38,
-      "y" : 0.22
+      "rotation" : 0,
+      "size" : { "height" : 0.32813, "width" : 0.24635 },
+      "type" : "polygon",
+      "x" : 0.81282,
+      "y" : 0.58712
     },
     {
       "clues" : [
-        {
-          "color" : "yellow"
-        },
-        {
-          "color" : "yellow"
-        }
+        { "color" : "yellow" }, { "color" : "yellow" },
+        { "color" : "yellow" }, { "color" : "blue" }
       ],
       "id" : "shape_04",
-      "neighbors" : [
-        "shape_03",
-        "shape_05"
+      "neighbors" : ["shape_01", "shape_05", "shape_09", "shape_13"],
+      "points" : [
+        { "x" : 0.99829, "y" : 0 },
+        { "x" : 1, "y" : 0.9812 },
+        { "x" : 0.00171, "y" : 1 },
+        { "x" : 0, "y" : 0.0188 }
       ],
       "rotation" : 0,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "triangle",
-      "x" : 0.22,
-      "y" : 0.22
+      "size" : { "height" : 0.09749, "width" : 0.32034 },
+      "type" : "polygon",
+      "x" : 0.32873,
+      "y" : 0.84161
     },
     {
       "clues" : [
-        {
-          "color" : "yellow"
-        },
-        {
-          "color" : "yellow"
-        }
+        { "color" : "yellow" }, { "color" : "yellow" },
+        { "color" : "blue" }, { "color" : "blue" }
       ],
       "id" : "shape_05",
-      "neighbors" : [
-        "shape_04",
-        "shape_06"
-      ],
-      "rotation" : 15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "square",
-      "x" : 0.22,
-      "y" : 0.38
-    },
-    {
-      "clues" : [
-
-      ],
-      "id" : "shape_06",
-      "neighbors" : [
-        "shape_05",
-        "shape_07"
-      ],
-      "rotation" : -15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "diamond",
-      "x" : 0.38,
-      "y" : 0.38
-    },
-    {
-      "clues" : [
-        {
-          "color" : "blue"
-        }
-      ],
-      "id" : "shape_07",
-      "neighbors" : [
-        "shape_06",
-        "shape_08"
+      "neighbors" : ["shape_01", "shape_03", "shape_04", "shape_10", "shape_12"],
+      "points" : [
+        { "x" : 0.99831, "y" : 0 },
+        { "x" : 1, "y" : 0.98094 },
+        { "x" : 0.00169, "y" : 1 },
+        { "x" : 0, "y" : 0.01906 }
       ],
       "rotation" : 0,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "circle",
-      "x" : 0.54,
-      "y" : 0.38
+      "size" : { "height" : 0.09751, "width" : 0.32477 },
+      "type" : "polygon",
+      "x" : 0.67854,
+      "y" : 0.83838
     },
     {
       "clues" : [
-        {
-          "color" : "yellow"
-        }
+        { "color" : "yellow" }, { "color" : "yellow" },
+        { "color" : "blue" }, { "color" : "blue" }
       ],
+      "id" : "shape_06",
+      "neighbors" : ["shape_01", "shape_07", "shape_08", "shape_11"],
+      "points" : [
+        { "x" : 0.34085, "y" : 1 },
+        { "x" : 0, "y" : 0.8525 },
+        { "x" : 0.65915, "y" : 0 },
+        { "x" : 1, "y" : 0.1475 }
+      ],
+      "rotation" : 0,
+      "size" : { "height" : 0.32472, "width" : 0.24293 },
+      "type" : "polygon",
+      "x" : 0.35094,
+      "y" : 0.29433
+    },
+    {
+      "clues" : [
+        { "color" : "red" }, { "color" : "yellow" },
+        { "color" : "yellow" }, { "color" : "yellow" }
+      ],
+      "id" : "shape_07",
+      "neighbors" : ["shape_01", "shape_06", "shape_09", "shape_13"],
+      "points" : [
+        { "x" : 0.33777, "y" : 1 },
+        { "x" : 0, "y" : 0.85422 },
+        { "x" : 0.66223, "y" : 0 },
+        { "x" : 1, "y" : 0.14578 }
+      ],
+      "rotation" : 0,
+      "size" : { "height" : 0.32855, "width" : 0.24514 },
+      "type" : "polygon",
+      "x" : 0.18195,
+      "y" : 0.59265
+    },
+    {
+      "clues" : [],
       "id" : "shape_08",
-      "neighbors" : [
-        "shape_07"
+      "neighbors" : ["shape_01", "shape_02", "shape_06", "shape_11"],
+      "points" : [
+        { "x" : 0.5, "y" : 0 }, { "x" : 1, "y" : 1 }, { "x" : 0, "y" : 1 }
       ],
-      "rotation" : 15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "triangle",
-      "x" : 0.7,
-      "y" : 0.38
+      "rotation" : 0,
+      "size" : { "height" : 0.17035, "width" : 0.19618 },
+      "type" : "polygon",
+      "x" : 0.49524,
+      "y" : 0.28139
+    },
+    {
+      "clues" : [],
+      "id" : "shape_09",
+      "neighbors" : ["shape_01", "shape_04", "shape_07", "shape_13"],
+      "points" : [
+        { "x" : 0.5, "y" : 0 }, { "x" : 1, "y" : 1 }, { "x" : 0, "y" : 1 }
+      ],
+      "rotation" : 0,
+      "size" : { "height" : 0.17146, "width" : 0.19745 },
+      "type" : "polygon",
+      "x" : 0.26403,
+      "y" : 0.67968
+    },
+    {
+      "clues" : [
+        { "color" : "yellow" }, { "color" : "yellow" },
+        { "color" : "blue" }, { "color" : "blue" }
+      ],
+      "id" : "shape_10",
+      "neighbors" : ["shape_01", "shape_03", "shape_05", "shape_12"],
+      "points" : [
+        { "x" : 0.5, "y" : 0 }, { "x" : 1, "y" : 1 }, { "x" : 0, "y" : 1 }
+      ],
+      "rotation" : 0,
+      "showsCluesInitially" : true,
+      "size" : { "height" : 0.17146, "width" : 0.19745 },
+      "type" : "polygon",
+      "x" : 0.73282,
+      "y" : 0.6784
+    },
+    {
+      "clues" : [
+        { "color" : "red" }, { "color" : "yellow" }, { "color" : "blue" }
+      ],
+      "id" : "shape_11",
+      "neighbors" : ["shape_02", "shape_06", "shape_08"],
+      "points" : [
+        { "x" : 0, "y" : 0.04301 },
+        { "x" : 1, "y" : 0 },
+        { "x" : 0.50923, "y" : 1 }
+      ],
+      "rotation" : 0,
+      "size" : { "height" : 0.05924, "width" : 0.18981 },
+      "type" : "polygon",
+      "x" : 0.49651,
+      "y" : 0.13949
+    },
+    {
+      "clues" : [
+        { "color" : "red" }, { "color" : "blue" }, { "color" : "blue" }
+      ],
+      "id" : "shape_12",
+      "neighbors" : ["shape_03", "shape_05", "shape_10"],
+      "points" : [
+        { "x" : 1, "y" : 0 },
+        { "x" : 0.00352, "y" : 1 },
+        { "x" : 0, "y" : 0.32672 }
+      ],
+      "rotation" : 0,
+      "showsCluesInitially" : true,
+      "size" : { "height" : 0.15511, "width" : 0.08861 },
+      "type" : "polygon",
+      "x" : 0.90478,
+      "y" : 0.80703
+    },
+    {
+      "clues" : [
+        { "color" : "yellow" }, { "color" : "yellow" }, { "color" : "blue" }
+      ],
+      "id" : "shape_13",
+      "neighbors" : ["shape_04", "shape_07", "shape_09"],
+      "points" : [
+        { "x" : 0.99739, "y" : 1 },
+        { "x" : 0, "y" : 0 },
+        { "x" : 1, "y" : 0.33659 }
+      ],
+      "rotation" : 0,
+      "size" : { "height" : 0.15387, "width" : 0.09069 },
+      "type" : "polygon",
+      "x" : 0.09566,
+      "y" : 0.81049
     }
   ],
   "solution" : {
     "shape_01" : "yellow",
-    "shape_02" : "blue",
-    "shape_03" : "yellow",
-    "shape_04" : "yellow",
-    "shape_05" : "yellow",
-    "shape_06" : "yellow",
+    "shape_02" : "yellow",
+    "shape_03" : "blue",
+    "shape_04" : "blue",
+    "shape_05" : "blue",
+    "shape_06" : "red",
     "shape_07" : "yellow",
-    "shape_08" : "blue"
+    "shape_08" : "blue",
+    "shape_09" : "yellow",
+    "shape_10" : "red",
+    "shape_11" : "blue",
+    "shape_12" : "yellow",
+    "shape_13" : "yellow"
   }
 }

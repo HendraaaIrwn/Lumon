@@ -16,7 +16,7 @@ struct CompletionBoardAnimation: ViewModifier {
                 view
                     .scaleEffect(phase == .glow ? 1.025 : 1)
                     .shadow(
-                        color: Color.yellow.opacity(phase == .idle ? 0 : 0.42),
+                        color: LumonPalette.cream.opacity(phase == .idle ? 0 : 0.42),
                         radius: phase == .glow ? 28 : 8
                     )
             } animation: { phase in

@@ -2,22 +2,48 @@ import SwiftUI
 
 struct ClueDotsView: View {
     let clues: [ColorClue]
-
-    private var rowCount: Int {
-        min(2, (clues.count + 2) / 3)
-    }
+    let shape: LumonShape
+    let differentiateWithoutColor: Bool
 
     var body: some View {
-        Grid(horizontalSpacing: 5, verticalSpacing: 5) {
-            ForEach(0..<rowCount, id: \.self) { row in
-                GridRow {
-                    ForEach(row * 3..<min(row * 3 + 3, clues.count), id: \.self) { index in
+        GeometryReader { proxy in
+            let layout = HintCircleLayoutEngine().layout(
+                type: shape.type,
+                points: shape.points,
+                clueCount: clues.count,
+                renderedWidth: proxy.size.width,
+                renderedHeight: proxy.size.height
+            )
+
+            if let layout {
+                ZStack {
+                    ForEach(clues.indices, id: \.self) { index in
+                        let position = layout.centers[index]
                         Circle()
                             .fill(clues[index].color.swiftUIColor)
-                            .stroke(.white, lineWidth: 1.5)
-                            .frame(maxWidth: 14, maxHeight: 14)
+                            .overlay {
+                                Circle()
+                                    .strokeBorder(
+                                        LumonPalette.cream,
+                                        lineWidth: max(1, layout.diameter * 0.10)
+                                    )
+                            }
+                            .overlay {
+                                if differentiateWithoutColor {
+                                    Image(systemName: clues[index].color.accessibilitySymbol)
+                                        .font(.system(size: max(5, layout.diameter * 0.42), weight: .black))
+                                        .foregroundStyle(LumonPalette.ink)
+                                        .accessibilityHidden(true)
+                                }
+                            }
+                            .frame(width: layout.diameter, height: layout.diameter)
+                            .position(
+                                x: proxy.size.width * position.x,
+                                y: proxy.size.height * position.y
+                            )
                     }
                 }
+                .rotationEffect(.degrees(shape.rotation))
             }
         }
         .accessibilityHidden(true)

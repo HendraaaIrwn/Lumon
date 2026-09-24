@@ -16,7 +16,7 @@ struct CorrectAnswerAnimation: ViewModifier {
                 view
                     .scaleEffect(phase == .bounce ? 1.08 : 1)
                     .shadow(
-                        color: .white.opacity(phase == .bounce ? 0.8 : 0),
+                        color: LumonPalette.cream.opacity(phase == .bounce ? 0.8 : 0),
                         radius: 12
                     )
             } animation: { phase in

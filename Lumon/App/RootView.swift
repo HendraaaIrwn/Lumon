@@ -1,16 +1,19 @@
 import SwiftUI
 
 struct RootView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var path: [AppDestination] = []
     @State private var settings = AppSettings()
     @State private var progress = ProgressStore()
+    @ScaledMetric(relativeTo: .largeTitle) private var homeWordmarkSize: CGFloat = 68
 
     var body: some View {
         NavigationStack(path: $path) {
             home
                 .navigationDestination(for: AppDestination.self, destination: destination)
         }
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
+        .tint(LumonPalette.orange)
         .task { AudioManager.shared.setEnabled(settings.isSoundEnabled) }
         .onChange(of: settings.isSoundEnabled) { _, isEnabled in
             AudioManager.shared.setEnabled(isEnabled)
@@ -18,48 +21,86 @@ struct RootView: View {
     }
 
     private var home: some View {
-        VStack(spacing: 0) {
-            Spacer()
-            VStack(spacing: 10) {
-                Text("LUMON")
-                    .font(.largeTitle.weight(.heavy))
-                    .fontDesign(.rounded)
-                    .tracking(8)
-                Text("Reveal the hidden colors.")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
-            VStack(spacing: 20) {
-                Button("PLAY", action: play)
-                    .font(.title3.weight(.semibold))
-                    .tracking(3)
-                    .foregroundStyle(.white)
+        LumonScreenBackground(variant: .home) {
+            GeometryReader { proxy in
+                ScrollView {
+                    homeMenu
+                    .padding(.horizontal, LumonSpacing.lg)
+                    .padding(.vertical, LumonSpacing.lg)
+                    .frame(minHeight: proxy.size.height)
+                    .frame(maxWidth: 468)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 56)
-                    .background(.black, in: RoundedRectangle(cornerRadius: 16))
-                    .padding(.horizontal, 40)
-
-                HStack(spacing: 36) {
-                    NavigationLink("Level Select", value: AppDestination.levelSelect)
-                    NavigationLink("Settings", value: AppDestination.settings)
                 }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .scrollIndicators(.hidden)
             }
-            .padding(.bottom, 56)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(white: 0.97))
+    }
+
+    private var wordmark: some View {
+        Text("LUMON")
+            .font(.custom("TiltWarp-Regular", size: homeWordmarkSize, relativeTo: .largeTitle))
+            .tracking(-1.4)
+            .foregroundStyle(LumonPalette.cream)
+            .shadow(color: LumonPalette.ink.opacity(0.85), radius: 3)
+            .lineLimit(1)
+            .minimumScaleFactor(0.64)
+            .accessibilityLabel("LUMON")
+    }
+
+    private var homeMenu: some View {
+        VStack(spacing: LumonSpacing.xl) {
+            wordmark
+            homeActions
+        }
+        .frame(maxWidth: 420)
+    }
+
+    private var homeActions: some View {
+        VStack(spacing: LumonSpacing.md) {
+            Button(action: play) {
+                Text("Play")
+            }
+            .buttonStyle(.lumonHomePrimary)
+            .accessibilityLabel("Play")
+
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(spacing: LumonSpacing.sm) {
+                    levelSelectLink
+                    settingsLink
+                }
+            } else {
+                HStack(spacing: LumonSpacing.md) {
+                    levelSelectLink
+                    settingsLink
+                }
+            }
+        }
+    }
+
+    private var levelSelectLink: some View {
+        NavigationLink(value: AppDestination.levelSelect) {
+            Label("Level Select", systemImage: "square.grid.2x2.fill")
+        }
+        .buttonStyle(.lumonHomeSecondary)
+        .accessibilityLabel("Level Select")
+    }
+
+    private var settingsLink: some View {
+        NavigationLink(value: AppDestination.settings) {
+            Label("Settings", systemImage: "gearshape.fill")
+        }
+        .buttonStyle(.lumonHomeSecondary)
+        .accessibilityLabel("Settings")
     }
 
     @ViewBuilder
     private func destination(_ destination: AppDestination) -> some View {
         switch destination {
-        case .game(let levelID):
+        case let .game(levelID):
             GameView(
                 levelID: levelID,
                 progressStore: progress,
+                hapticsEnabled: settings.isHapticsEnabled,
                 onNextLevel: { replaceCurrent(with: .game(levelID: $0)) },
                 onShowLevelSelect: { replaceCurrent(with: .levelSelect) },
                 onHome: { path.removeAll() }

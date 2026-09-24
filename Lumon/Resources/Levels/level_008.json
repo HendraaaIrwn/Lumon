@@ -21,6 +21,7 @@
         "shape_02"
       ],
       "rotation" : 0,
+      "showsCluesInitially" : true,
       "size" : {
         "height" : 0.16,
         "width" : 0.16
@@ -54,7 +55,12 @@
     },
     {
       "clues" : [
-
+        {
+          "color" : "yellow"
+        },
+        {
+          "color" : "yellow"
+        }
       ],
       "id" : "shape_03",
       "neighbors" : [
@@ -118,7 +124,12 @@
     },
     {
       "clues" : [
-
+        {
+          "color" : "blue"
+        },
+        {
+          "color" : "blue"
+        }
       ],
       "id" : "shape_06",
       "neighbors" : [

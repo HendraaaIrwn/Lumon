@@ -7,10 +7,10 @@ struct LevelLoadingView: View {
     var body: some View {
         VStack(spacing: 18) {
             ZStack {
-                RoundedRectangle(cornerRadius: 7).fill(.red)
+                RoundedRectangle(cornerRadius: LumonRadius.small).fill(LumonPalette.coral)
                     .frame(width: 30, height: 30).offset(x: -22)
-                Circle().fill(.yellow).frame(width: 30, height: 30)
-                LumonShape(type: .triangle, points: [], rotation: 0).fill(.blue)
+                Circle().fill(LumonPalette.orange).frame(width: 30, height: 30)
+                LumonShape(type: .triangle, points: [], rotation: 0).fill(LumonPalette.blue)
                     .frame(width: 34, height: 34).offset(x: 24)
             }
             .rotationEffect(reduceMotion ? .zero : .degrees(isAnimating ? 360 : 0))
@@ -18,7 +18,8 @@ struct LevelLoadingView: View {
                 reduceMotion ? nil : .linear(duration: 1.4).repeatForever(autoreverses: false),
                 value: isAnimating
             )
-            Text("Loading level…").font(.headline).foregroundStyle(.secondary)
+            Text("Loading level…")
+                .lumonTextStyle(.label, color: LumonPalette.cream.opacity(0.78))
         }
         .onAppear { isAnimating = true }
         .accessibilityElement(children: .ignore)

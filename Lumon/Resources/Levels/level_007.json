@@ -31,6 +31,9 @@
       "clues" : [
         {
           "color" : "blue"
+        },
+        {
+          "color" : "red"
         }
       ],
       "id" : "shape_02",
@@ -62,6 +65,7 @@
         "shape_04"
       ],
       "rotation" : -15,
+      "showsCluesInitially" : true,
       "size" : {
         "height" : 0.16,
         "width" : 0.16
@@ -74,6 +78,9 @@
       "clues" : [
         {
           "color" : "red"
+        },
+        {
+          "color" : "yellow"
         }
       ],
       "id" : "shape_04",
@@ -184,6 +191,7 @@
         "shape_10"
       ],
       "rotation" : -15,
+      "showsCluesInitially" : true,
       "size" : {
         "height" : 0.16,
         "width" : 0.16

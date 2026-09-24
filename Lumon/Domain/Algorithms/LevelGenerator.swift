@@ -103,6 +103,12 @@ nonisolated struct LevelGenerator: Sendable {
                 clues: clues
             )
 
+            do {
+                level = try ProgressiveLevelAuthor().configure(level)
+            } catch {
+                continue
+            }
+
             let issues = LevelValidator(
                 solverAssignmentLimit: options.solverAssignmentLimit
             ).issues(for: level)

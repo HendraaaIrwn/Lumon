@@ -76,6 +76,32 @@ nonisolated struct LevelValidator: Sendable {
             issues.append(error.localizedDescription)
         }
 
+        do {
+            if let issue = try ProgressiveClueValidator().issue(for: level) {
+                issues.append(issue)
+            }
+        } catch {
+            issues.append(error.localizedDescription)
+        }
+
+        let layoutEngine = HintCircleLayoutEngine()
+        for shape in level.shapes where !shape.clues.isEmpty {
+            let width = shape.size.width * 240
+            let height = shape.size.height * 240
+            guard layoutEngine.layout(
+                type: shape.type,
+                points: shape.points,
+                clueCount: shape.clues.count,
+                renderedWidth: width,
+                renderedHeight: height
+            ) != nil else {
+                issues.append(
+                    "Shape \(shape.id) cannot fit its hint circles inside the 240-point game board."
+                )
+                continue
+            }
+        }
+
         return issues
     }
 

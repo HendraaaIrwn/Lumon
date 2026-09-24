@@ -7,7 +7,17 @@
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>TiltWarp-Regular-VariableFont_XROT,YROT.ttf</string>
+		<string>Outfit-VariableFont_wght.ttf</string>
+	</array>
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UIColorName</key>
+		<string>LumonBackground</string>
+		<key>UIImageName</key>
+		<string>LumonLaunchMark</string>
+	</dict>
 </dict>
 </plist>

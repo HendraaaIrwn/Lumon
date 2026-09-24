@@ -2,9 +2,13 @@ import SwiftUI
 
 struct PuzzleShapeView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     let shape: PuzzleShape
     let isSelected: Bool
+    let areCluesVisible: Bool
+    let isEnabled: Bool
+    let isTutorialTarget: Bool
     let feedbackEvent: GameFeedbackEvent?
     let onSelect: () -> Void
 
@@ -42,7 +46,7 @@ struct PuzzleShapeView: View {
         } else {
             parts.append("Unrevealed")
         }
-        if isSelected, !shape.clues.isEmpty {
+        if areCluesVisible, !shape.clues.isEmpty {
             let clueNames = shape.clues.map(\.color.accessibilityName).joined(separator: ", ")
             parts.append("Clues: \(clueNames)")
         }
@@ -53,33 +57,49 @@ struct PuzzleShapeView: View {
         Button(action: onSelect) {
             ZStack {
                 renderer
-                    .fill(shape.color?.swiftUIColor ?? .black)
+                    .fill(shape.color?.swiftUIColor ?? LumonPalette.cream)
 
                 renderer
                     .stroke(
-                        isSelected ? Color.white : Color.clear,
-                        style: StrokeStyle(lineWidth: 4, lineJoin: .round)
+                        isSelected ? (shape.color == nil ? LumonPalette.ink : LumonPalette.cream) : Color.clear,
+                        style: StrokeStyle(lineWidth: LumonStroke.medium, lineJoin: .round)
                     )
 
                 renderer
                     .stroke(
-                        isSelected ? Color.accentColor : Color.clear,
-                        style: StrokeStyle(lineWidth: 2, lineJoin: .round)
+                        isTutorialTarget ? LumonPalette.orange : Color.clear,
+                        style: StrokeStyle(lineWidth: LumonStroke.thin, lineJoin: .round)
                     )
 
-                if isSelected, !shape.clues.isEmpty {
-                    ClueDotsView(clues: shape.clues)
-                        .padding(12)
+                if areCluesVisible, !shape.clues.isEmpty {
+                    ClueDotsView(
+                        clues: shape.clues,
+                        shape: renderer,
+                        differentiateWithoutColor: differentiateWithoutColor
+                    )
+                    .transition(
+                        reduceMotion
+                            ? .opacity
+                            : .scale(scale: 0.7).combined(with: .opacity)
+                    )
                         .allowsHitTesting(false)
                 }
             }
             .contentShape(.interaction, renderer)
+            .shadow(
+                color: isTutorialTarget ? LumonPalette.orange.opacity(0.62) : .clear,
+                radius: isTutorialTarget ? 8 : 0
+            )
         }
         .buttonStyle(.plain)
+        .disabled(!isEnabled)
+        .opacity(isEnabled || isTutorialTarget || shape.color != nil ? 1 : 0.35)
         .modifier(LightRevealAnimation(trigger: revealTrigger, isEnabled: !reduceMotion))
         .modifier(CorrectAnswerAnimation(trigger: correctTrigger, isEnabled: !reduceMotion))
         .modifier(WrongAnswerAnimation(trigger: wrongTrigger, isEnabled: !reduceMotion))
         .animation(reduceMotion ? nil : .easeOut(duration: 0.18), value: isSelected)
+        .animation(reduceMotion ? nil : .easeOut(duration: 0.22), value: areCluesVisible)
+        .animation(reduceMotion ? nil : .easeOut(duration: 0.2), value: isTutorialTarget)
         .accessibilityLabel(accessibilityDescription)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }

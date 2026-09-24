@@ -42,6 +42,7 @@
         "shape_03"
       ],
       "rotation" : 15,
+      "showsCluesInitially" : true,
       "size" : {
         "height" : 0.16,
         "width" : 0.16
@@ -82,6 +83,7 @@
         "shape_05"
       ],
       "rotation" : 0,
+      "showsCluesInitially" : true,
       "size" : {
         "height" : 0.16,
         "width" : 0.16

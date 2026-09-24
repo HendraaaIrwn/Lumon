@@ -16,7 +16,7 @@ struct LightRevealAnimation: ViewModifier {
                 view
                     .scaleEffect(phase == .glow ? 1.12 : 1)
                     .shadow(
-                        color: .white.opacity(phase == .idle ? 0 : 0.95),
+                        color: LumonPalette.cream.opacity(phase == .idle ? 0 : 0.95),
                         radius: phase == .glow ? 22 : 8
                     )
             } animation: { phase in

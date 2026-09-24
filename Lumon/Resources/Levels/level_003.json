@@ -13,24 +13,51 @@
     {
       "clues" : [
         {
-          "color" : "red"
+          "color" : "blue"
         }
       ],
-      "id" : "shape_01",
+      "id" : "top",
       "neighbors" : [
-        "shape_02"
+        "center"
       ],
       "rotation" : 0,
+      "showsCluesInitially" : true,
       "size" : {
-        "height" : 0.16,
-        "width" : 0.16
+        "height" : 0.252853,
+        "width" : 0.296696
       },
-      "type" : "circle",
-      "x" : 0.38,
-      "y" : 0.22
+      "type" : "triangle",
+      "x" : 0.5009,
+      "y" : 0.185285
     },
     {
       "clues" : [
+        {
+          "color" : "blue"
+        },
+        {
+          "color" : "red"
+        }
+      ],
+      "id" : "left",
+      "neighbors" : [
+        "center",
+        "bottom_left"
+      ],
+      "rotation" : 0,
+      "size" : {
+        "height" : 0.308108,
+        "width" : 0.308108
+      },
+      "type" : "square",
+      "x" : 0.154054,
+      "y" : 0.495796
+    },
+    {
+      "clues" : [
+        {
+          "color" : "red"
+        },
         {
           "color" : "yellow"
         },
@@ -38,57 +65,43 @@
           "color" : "yellow"
         }
       ],
-      "id" : "shape_02",
+      "id" : "center",
       "neighbors" : [
-        "shape_01",
-        "shape_03"
+        "top",
+        "left",
+        "right"
       ],
-      "rotation" : 15,
+      "rotation" : 0,
       "size" : {
-        "height" : 0.16,
-        "width" : 0.16
+        "height" : 0.308108,
+        "width" : 0.308108
       },
-      "type" : "triangle",
-      "x" : 0.22,
-      "y" : 0.22
+      "type" : "square",
+      "x" : 0.498198,
+      "y" : 0.495796
     },
     {
       "clues" : [
         {
           "color" : "blue"
+        },
+        {
+          "color" : "red"
         }
       ],
-      "id" : "shape_03",
+      "id" : "right",
       "neighbors" : [
-        "shape_02",
-        "shape_04"
-      ],
-      "rotation" : -15,
-      "size" : {
-        "height" : 0.16,
-        "width" : 0.16
-      },
-      "type" : "square",
-      "x" : 0.22,
-      "y" : 0.38
-    },
-    {
-      "clues" : [
-
-      ],
-      "id" : "shape_04",
-      "neighbors" : [
-        "shape_03",
-        "shape_05"
+        "center",
+        "bottom_right"
       ],
       "rotation" : 0,
       "size" : {
-        "height" : 0.16,
-        "width" : 0.16
+        "height" : 0.308108,
+        "width" : 0.308108
       },
-      "type" : "diamond",
-      "x" : 0.38,
-      "y" : 0.38
+      "type" : "square",
+      "x" : 0.845946,
+      "y" : 0.495796
     },
     {
       "clues" : [
@@ -96,46 +109,47 @@
           "color" : "yellow"
         }
       ],
-      "id" : "shape_05",
+      "id" : "bottom_left",
       "neighbors" : [
-        "shape_04",
-        "shape_06"
+        "left"
       ],
-      "rotation" : 15,
+      "rotation" : 180,
+      "showsCluesInitially" : true,
       "size" : {
-        "height" : 0.16,
-        "width" : 0.16
+        "height" : 0.252853,
+        "width" : 0.296696
       },
-      "type" : "circle",
-      "x" : 0.38,
-      "y" : 0.54
+      "type" : "triangle",
+      "x" : 0.150151,
+      "y" : 0.814715
     },
     {
       "clues" : [
         {
-          "color" : "blue"
+          "color" : "yellow"
         }
       ],
-      "id" : "shape_06",
+      "id" : "bottom_right",
       "neighbors" : [
-        "shape_05"
+        "right"
       ],
-      "rotation" : -15,
+      "rotation" : 180,
+      "showsCluesInitially" : true,
       "size" : {
-        "height" : 0.16,
-        "width" : 0.16
+        "height" : 0.252853,
+        "width" : 0.296696
       },
       "type" : "triangle",
-      "x" : 0.22,
-      "y" : 0.54
+      "x" : 0.84925,
+      "y" : 0.814715
     }
   ],
   "solution" : {
-    "shape_01" : "yellow",
-    "shape_02" : "red",
-    "shape_03" : "yellow",
-    "shape_04" : "blue",
-    "shape_05" : "blue",
-    "shape_06" : "yellow"
+    "bottom_left" : "red",
+    "bottom_right" : "red",
+    "center" : "blue",
+    "left" : "yellow",
+    "right" : "yellow",
+    "top" : "red"
   }
 }

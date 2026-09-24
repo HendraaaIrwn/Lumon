@@ -20,14 +20,18 @@ nonisolated struct PuzzleShape: Identifiable, Codable, Hashable, Sendable {
     var color: LumonColor?
     /// IDs of directly touching shapes (PRS §4 — edges/corners contact only).
     let neighbors: [String]
-    /// Hidden color hints, shown when the player selects the shape (PRS §7).
+    /// Color hints whose visibility is controlled by the game session.
     let clues: [ColorClue]
+    /// Whether this shape's clues are visible when a level session starts.
+    /// Other clues become visible after the shape is solved.
+    var showsCluesInitially: Bool
 
     /// Flat keys matching the level JSON format (TDD §8): the position is
-    /// stored as top-level `x`/`y`. `rotation`, `neighbors`, `clues` and
-    /// `color` are optional so hand-written levels can omit them.
+    /// stored as top-level `x`/`y`. `rotation`, `neighbors`, `clues`,
+    /// `showsCluesInitially` and `color` are optional so hand-written levels
+    /// can omit them.
     private enum CodingKeys: String, CodingKey {
-        case id, type, color, neighbors, clues
+        case id, type, color, neighbors, clues, showsCluesInitially
         case x, y, rotation, size, points
     }
 
@@ -40,7 +44,8 @@ nonisolated struct PuzzleShape: Identifiable, Codable, Hashable, Sendable {
         points: [NormalizedPoint] = [],
         color: LumonColor? = nil,
         neighbors: [String] = [],
-        clues: [ColorClue] = []
+        clues: [ColorClue] = [],
+        showsCluesInitially: Bool = false
     ) {
         self.id = id
         self.type = type
@@ -51,6 +56,7 @@ nonisolated struct PuzzleShape: Identifiable, Codable, Hashable, Sendable {
         self.color = color
         self.neighbors = neighbors
         self.clues = clues
+        self.showsCluesInitially = showsCluesInitially
     }
 
     init(from decoder: Decoder) throws {
@@ -67,6 +73,10 @@ nonisolated struct PuzzleShape: Identifiable, Codable, Hashable, Sendable {
         color = try container.decodeIfPresent(LumonColor.self, forKey: .color)
         neighbors = try container.decodeIfPresent([String].self, forKey: .neighbors) ?? []
         clues = try container.decodeIfPresent([ColorClue].self, forKey: .clues) ?? []
+        showsCluesInitially = try container.decodeIfPresent(
+            Bool.self,
+            forKey: .showsCluesInitially
+        ) ?? false
     }
 
     func encode(to encoder: Encoder) throws {
@@ -83,5 +93,8 @@ nonisolated struct PuzzleShape: Identifiable, Codable, Hashable, Sendable {
         try container.encodeIfPresent(color, forKey: .color)
         try container.encode(neighbors, forKey: .neighbors)
         try container.encode(clues, forKey: .clues)
+        if showsCluesInitially {
+            try container.encode(true, forKey: .showsCluesInitially)
+        }
     }
 }
