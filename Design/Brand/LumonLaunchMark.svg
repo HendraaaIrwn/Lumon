@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220">
+  <g transform="translate(40 42)">
+    <circle cx="48" cy="48" r="32" fill="#FB5D26"/>
+    <rect x="84" y="12" width="64" height="64" fill="#029CDA" transform="rotate(12 116 44)"/>
+    <path d="M80 68 L116 118 L44 118 Z" fill="#EC5828"/>
+  </g>
+  <text x="205" y="145" fill="#FAF5D9" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-size="92" font-weight="900" letter-spacing="12">LUMON</text>
+</svg>

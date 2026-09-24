@@ -17,6 +17,11 @@ protocol AudioPlaying: AnyObject {
 
 @MainActor
 final class AudioManager: AudioPlaying {
+    private nonisolated enum AudioSessionActivationResult: Sendable {
+        case activated
+        case failed(String)
+    }
+
     static let shared = AudioManager()
 
     private static let logger = Logger(
@@ -27,15 +32,22 @@ final class AudioManager: AudioPlaying {
     private let bundle: Bundle
     private var players: [SoundEffect: AVAudioPlayer] = [:]
     private var isEnabled = true
+    private var isPreparingAudio = false
+    private var didPreparePlayers = false
+    private var pendingEffect: SoundEffect?
 
     init(bundle: Bundle = .main) {
         self.bundle = bundle
-        configureAudioSession()
-        preparePlayers()
+        prepareAudioIfNeeded()
     }
 
     func play(_ effect: SoundEffect) {
         guard isEnabled else { return }
+        guard didPreparePlayers else {
+            pendingEffect = effect
+            prepareAudioIfNeeded()
+            return
+        }
         guard let player = players[effect] else {
             Self.logger.error("Sound resource unavailable: \(effect.rawValue, privacy: .public)")
             return
@@ -50,17 +62,65 @@ final class AudioManager: AudioPlaying {
     func setEnabled(_ isEnabled: Bool) {
         self.isEnabled = isEnabled
         if !isEnabled {
+            pendingEffect = nil
             players.values.forEach { $0.stop() }
+        } else {
+            prepareAudioIfNeeded()
         }
     }
 
-    private func configureAudioSession() {
+    private func prepareAudioIfNeeded() {
+        guard !didPreparePlayers, !isPreparingAudio else { return }
+        isPreparingAudio = true
+
+        Task { [weak self] in
+            await self?.activateAudioSessionAndPreparePlayers()
+        }
+    }
+
+    private func activateAudioSessionAndPreparePlayers() async {
+        let activationResult: AudioSessionActivationResult
+        if #available(iOS 27.0, *) {
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                try audioSession.setCategory(.ambient)
+                activationResult = try await audioSession.activate()
+                    ? .activated
+                    : .failed("Activation did not succeed")
+            } catch {
+                activationResult = .failed(error.localizedDescription)
+            }
+        } else {
+            activationResult = await Self.activateLegacyAudioSession()
+        }
+
+        guard case .activated = activationResult else {
+            isPreparingAudio = false
+            if case .failed(let message) = activationResult {
+                Self.logger.error("Audio session activation failed: \(message, privacy: .public)")
+            }
+            return
+        }
+
+        preparePlayers()
+        didPreparePlayers = true
+        isPreparingAudio = false
+
+        if let pendingEffect, isEnabled {
+            self.pendingEffect = nil
+            play(pendingEffect)
+        }
+    }
+
+    @concurrent
+    private nonisolated static func activateLegacyAudioSession() async -> AudioSessionActivationResult {
+        let audioSession = AVAudioSession.sharedInstance()
         do {
-            try AVAudioSession.sharedInstance().setCategory(.ambient)
+            try audioSession.setCategory(.ambient)
+            try audioSession.setActive(true)
+            return .activated
         } catch {
-            Self.logger.error(
-                "Audio session configuration failed: \(error.localizedDescription, privacy: .public)"
-            )
+            return .failed(error.localizedDescription)
         }
     }
 

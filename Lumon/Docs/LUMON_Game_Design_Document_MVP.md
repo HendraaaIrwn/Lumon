@@ -79,6 +79,11 @@ Each shape contains colored circles as hints.
 
 The circles indicate the colors of neighboring shapes that are touching it.
 
+All shapes begin black. Three shapes in Levels 1–3, two shapes in Levels
+4–7, and one shape in Levels 8–10 display their hints immediately. Other
+hints appear permanently when their owning shape is answered correctly.
+Selecting a shape does not reveal its hint.
+
 Important rule:
 
 > Hints only describe neighboring shapes, not the shape itself.
@@ -263,6 +268,8 @@ After:
 ```
 🔵
 ```
+
+The revealed shape becomes locked and its own neighbor hint also appears.
 
 ---
 

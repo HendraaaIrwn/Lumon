@@ -182,6 +182,8 @@ struct PuzzleShape: Identifiable {
 
     let clues: [ColorClue]
 
+    let showsCluesInitially: Bool
+
 }
 ```
 
@@ -268,6 +270,10 @@ dots require at least two distinct red neighbors. Clues can be partial, so
 unlisted neighbor colors remain unconstrained. Neighbor relationships must
 be explicit and two-way in JSON.
 
+`showsCluesInitially` is optional when decoding and defaults to `false` for
+older level data. Bundled levels explicitly mark the required initial clue
+shapes.
+
 ------------------------------------------------------------------------
 
 # 9. Puzzle Validation Engine
@@ -345,6 +351,11 @@ uniqueness. The default search budget is 100,000 attempted assignments.
 Reaching the budget is reported as an unproven result, not as a unique
 solution.
 
+Progressive validation evaluates only currently visible clues plus known
+correct colors. At every step, at least one unresolved shape must have exactly
+one possible color. Solving all currently forced shapes reveals their clues;
+validation fails if this process reaches a dead end.
+
 ------------------------------------------------------------------------
 
 # 11. Level Generator Design
@@ -419,7 +430,8 @@ Flow:
 
 The game starts with six hint reveals. A reveal prefers the selected
 unresolved shape, otherwise it uses the first unresolved shape in level
-order. Revealed shapes become locked and reset restores all six hints.
+order. Revealed shapes become locked, reveal their own neighbor clues, and
+reset restores all six hints.
 
 ------------------------------------------------------------------------
 
@@ -487,6 +499,12 @@ var feedbackEvent:GameFeedbackEvent?
 `GameViewModel` owns all mutable session state and exposes actions for
 loading, selection, color assignment, hints, and reset. Views render state
 and forward player actions; puzzle rules remain in domain services.
+
+The view model also owns a session-only set of revealed clue shape IDs. It
+starts with the level's explicit initial clues. Selection never changes this
+set; manual correct answers and Hint-button reveals add the solved shape ID.
+Clue views receive visibility explicitly, and VoiceOver only describes clue
+colors while they are visible.
 
 ------------------------------------------------------------------------
 
@@ -590,14 +608,21 @@ for Level 2 through Level 10. It calls the production `LevelGenerator` and
 solver proves one solution matching the hidden answer. Generated files are
 then bundled as static resources and are never generated during gameplay.
 
+Progressive authoring chooses the first valid initial-clue combination in
+shape order. If the reduced puzzle has no deduction path, it restores the
+smallest possible subset of missing neighbor clues, with stable shape and
+neighbor ordering as the tie-breaker. Loader and exporter apply the same
+progressive validator used by authoring.
+
 ------------------------------------------------------------------------
 
 # 22. Verification Boundary
 
-Phase 13 tests were skipped by explicit project direction. Debug and Release
-simulator builds are the implementation gate. Runtime gameplay, animation
-quality, accessibility behavior on device, and difficulty balance remain
-unverified through playtesting.
+The project has no XCTest target. The progressive authoring utility validates
+the bundled catalog and includes focused legacy-decoding and invalid-config
+checks. Debug and Release simulator builds plus simulator smoke testing are
+the implementation gate; physical-device animation and accessibility quality
+remain a separate verification boundary.
 
 ------------------------------------------------------------------------
 

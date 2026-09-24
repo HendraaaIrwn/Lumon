@@ -6,6 +6,7 @@ Native SwiftUI color-logic puzzle for iOS 26.5 and later.
 
 - Ten sequential JSON levels
 - Immediate answer validation, three lives, and six hints per session
+- Progressive clues with a solver-proven no-guess path
 - Local completion progress with Level Select and Next Level
 - Persistent sound setting and progress reset
 - Native sound, haptic feedback, and reduced-motion-aware animations
@@ -35,7 +36,9 @@ rtk proxy swiftc -parse-as-library -o /tmp/lumon-level-author \
   Lumon/Domain/Models/PuzzleShape.swift \
   Lumon/Domain/Models/ShapeType.swift \
   Lumon/Domain/Algorithms/LevelGenerator.swift \
+  Lumon/Domain/Algorithms/HintCircleLayout.swift \
   Lumon/Domain/Algorithms/LevelValidator.swift \
+  Lumon/Domain/Algorithms/ProgressiveClueRules.swift \
   Lumon/Domain/Algorithms/NeighborGraph.swift \
   Lumon/Domain/Algorithms/PuzzleSolver.swift \
   Lumon/Domain/Algorithms/PuzzleValidator.swift \
@@ -45,10 +48,16 @@ rtk proxy /tmp/lumon-level-author
 
 The authoring command uses deterministic seeds. Export fails unless the
 production validator proves exactly one solution that matches the hidden
-answer.
+answer, a progressive no-guess deduction path, and readable hint-circle
+placement fully inside each clue-bearing shape at the 240-point board minimum.
+
+Use `Tools/LevelAuthoring/configure_progressive_levels.swift` with the same
+model, validator, solver, and exporter sources to rebalance existing levels.
+Pass `--validate-only` to validate the bundled catalog without rewriting it.
 
 ## Verification boundary
 
-Phase 13 tests and manual playtesting are intentionally skipped. Debug and
-Release builds verify compilation only; runtime gameplay and level balance
-remain unverified through playtesting.
+The project still has no XCTest target. The progressive authoring utility
+provides catalog validation and focused compatibility checks through
+`--validate-only` and `--self-test`. Debug/Release builds and simulator smoke
+testing remain the release gates for gameplay and animation behavior.

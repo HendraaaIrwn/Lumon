@@ -137,6 +137,9 @@
       "clues" : [
         {
           "color" : "blue"
+        },
+        {
+          "color" : "red"
         }
       ],
       "id" : "shape_07",
@@ -177,6 +180,9 @@
       "clues" : [
         {
           "color" : "yellow"
+        },
+        {
+          "color" : "blue"
         }
       ],
       "id" : "shape_09",
@@ -208,6 +214,7 @@
         "shape_11"
       ],
       "rotation" : 0,
+      "showsCluesInitially" : true,
       "size" : {
         "height" : 0.16,
         "width" : 0.16
@@ -218,7 +225,9 @@
     },
     {
       "clues" : [
-
+        {
+          "color" : "yellow"
+        }
       ],
       "id" : "shape_11",
       "neighbors" : [

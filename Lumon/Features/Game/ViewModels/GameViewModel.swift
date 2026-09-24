@@ -1,11 +1,22 @@
 import Foundation
 import Observation
 
+enum GameTutorialStep: Equatable {
+    case selectOuter(remainingCount: Int)
+    case chooseRed
+    case selectCenter
+    case chooseYellow
+}
+
 @MainActor
 @Observable
 final class GameViewModel {
     static let initialLives = 3
     static let initialHints = 6
+
+    private static let tutorialLevelID = "level_001"
+    private static let tutorialCenterID = "center"
+    private static let tutorialOuterIDs = ["upper_left", "upper_right", "bottom"]
 
     private let levelID: String
     private let repository: any LevelRepository
@@ -17,6 +28,7 @@ final class GameViewModel {
     private(set) var shapes: [PuzzleShape] = []
     private(set) var loadingState: GameLoadingState = .idle
     private(set) var selectedShapeID: String?
+    private(set) var revealedClueShapeIDs: Set<String> = []
     private(set) var lives = initialLives
     private(set) var hintsRemaining = initialHints
     private(set) var status: GameStatus = .playing
@@ -36,8 +48,64 @@ final class GameViewModel {
         return shape.color == nil
     }
 
+    var tutorialStep: GameTutorialStep? {
+        guard status == .playing, supportsLevelOneTutorial else { return nil }
+
+        let remainingOuterIDs = Self.tutorialOuterIDs.filter { shapeID in
+            shapes.first(where: { $0.id == shapeID })?.color == nil
+        }
+        if !remainingOuterIDs.isEmpty {
+            if let selectedShapeID, remainingOuterIDs.contains(selectedShapeID) {
+                return .chooseRed
+            }
+            return .selectOuter(remainingCount: remainingOuterIDs.count)
+        }
+
+        guard shapes.first(where: { $0.id == Self.tutorialCenterID })?.color == nil else {
+            return nil
+        }
+        return selectedShapeID == Self.tutorialCenterID ? .chooseYellow : .selectCenter
+    }
+
+    var selectableShapeIDs: Set<String>? {
+        guard let tutorialStep else { return nil }
+        switch tutorialStep {
+        case .selectOuter:
+            return Set(Self.tutorialOuterIDs.filter { shapeID in
+                shapes.first(where: { $0.id == shapeID })?.color == nil
+            })
+        case .selectCenter:
+            return [Self.tutorialCenterID]
+        case .chooseRed, .chooseYellow:
+            return []
+        }
+    }
+
+    var tutorialHighlightedShapeIDs: Set<String> {
+        guard let tutorialStep else { return [] }
+        switch tutorialStep {
+        case .selectOuter, .selectCenter:
+            return selectableShapeIDs ?? []
+        case .chooseRed, .chooseYellow:
+            return Set(selectedShapeID.map { [$0] } ?? [])
+        }
+    }
+
+    var enabledColors: [LumonColor] {
+        guard canAssignColor else { return [] }
+        switch tutorialStep {
+        case .chooseRed: return [.red]
+        case .chooseYellow: return [.yellow]
+        case .selectOuter, .selectCenter: return []
+        case nil: return availableColors
+        }
+    }
+
     var canUseHint: Bool {
-        status == .playing && hintsRemaining > 0 && shapes.contains { $0.color == nil }
+        tutorialStep == nil
+            && status == .playing
+            && hintsRemaining > 0
+            && shapes.contains { $0.color == nil }
     }
 
     init(
@@ -70,6 +138,7 @@ final class GameViewModel {
             level = nil
             shapes = []
             selectedShapeID = nil
+            revealedClueShapeIDs = []
             lives = Self.initialLives
             hintsRemaining = Self.initialHints
             status = .playing
@@ -80,6 +149,7 @@ final class GameViewModel {
 
     func selectShape(id: String) {
         guard shapes.contains(where: { $0.id == id }) else { return }
+        if let selectableShapeIDs, !selectableShapeIDs.contains(id) { return }
         selectedShapeID = id
         audioPlayer.play(.tap)
     }
@@ -89,7 +159,8 @@ final class GameViewModel {
               let level,
               let selectedShapeID,
               let index = shapes.firstIndex(where: { $0.id == selectedShapeID }),
-              shapes[index].color == nil else { return }
+              shapes[index].color == nil,
+              enabledColors.contains(color) else { return }
 
         let validator: PuzzleValidator
         do {
@@ -106,6 +177,7 @@ final class GameViewModel {
         ) {
         case .correct:
             shapes[index].color = color
+            revealedClueShapeIDs.insert(selectedShapeID)
             completeIfNeeded(
                 using: validator,
                 shapeID: selectedShapeID,
@@ -135,6 +207,7 @@ final class GameViewModel {
 
         shapes[index].color = reveal.color
         selectedShapeID = reveal.shapeID
+        revealedClueShapeIDs.insert(reveal.shapeID)
         hintsRemaining -= 1
 
         guard let graph = try? NeighborGraph(shapes: shapes) else { return }
@@ -159,10 +232,31 @@ final class GameViewModel {
             return hiddenShape
         }
         selectedShapeID = nil
+        revealedClueShapeIDs = Set(
+            level.shapes
+                .filter(\.showsCluesInitially)
+                .map(\.id)
+        )
         lives = Self.initialLives
         hintsRemaining = Self.initialHints
         status = .playing
         feedbackEvent = nil
+    }
+
+    private var supportsLevelOneTutorial: Bool {
+        guard let level,
+              level.id == Self.tutorialLevelID,
+              !progressStore.isCompleted(Self.tutorialLevelID),
+              level.availableColors.contains(.red),
+              level.availableColors.contains(.yellow),
+              level.solution[Self.tutorialCenterID] == .yellow,
+              Self.tutorialOuterIDs.allSatisfy({ level.solution[$0] == .red }) else {
+            return false
+        }
+
+        let shapeIDs = Set(level.shapes.map(\.id))
+        return shapeIDs.contains(Self.tutorialCenterID)
+            && Self.tutorialOuterIDs.allSatisfy(shapeIDs.contains)
     }
 
     private func completeIfNeeded(

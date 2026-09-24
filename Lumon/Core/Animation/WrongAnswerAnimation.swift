@@ -17,7 +17,7 @@ struct WrongAnswerAnimation: ViewModifier {
                 view
                     .offset(x: offset(for: phase))
                     .shadow(
-                        color: .red.opacity(phase == .idle || phase == .settle ? 0 : 0.9),
+                        color: LumonPalette.coral.opacity(phase == .idle || phase == .settle ? 0 : 0.9),
                         radius: 10
                     )
             } animation: { _ in

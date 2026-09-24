@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LumonShape: Shape {
+nonisolated struct LumonShape: Shape {
     let type: ShapeType
     let points: [NormalizedPoint]
     let rotation: Double
